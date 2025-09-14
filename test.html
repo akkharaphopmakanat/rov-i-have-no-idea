@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ROV เล่นตัวไรดีวะ</title>
+<style>
+/* body { font-family: Arial, sans-serif; text-align: center; margin: 20px; } */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffd1dc, #c7ceea, #b5ead7);
+  min-height: 100vh;
+  margin: 20px;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  text-align: center;
+  padding: 20px;
+}
+.wheel-container { display: inline-block; margin: 20px; vertical-align: top; position: relative; }
+canvas { border: 2px solid #444; border-radius: 50%; }
+.arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid red; 
+  position: absolute;
+  top: 23%; 
+  left: 90%;
+  rotate: 180deg;
+}
+textarea { width: 200px; height: 150px; margin-top: 10px; }
+.popup {
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.6); align-items:center; justify-content:center;
+}
+.popup-content {
+  background:#fff; padding:20px; border-radius:10px; min-width:250px;
+}
+.popup button { margin-top:10px; padding:6px 12px; }
+
+button {
+  background: linear-gradient(135deg, #ffd1dc, #b5ead7);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+.table-wrapper {
+  width: 80%;
+  margin: 20px auto;
+  border-radius: 12px;     
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 500;
+  color: #333;
+}
+th {
+    background: #f9e2ae;
+}
+
+td {
+    background: #f4f4f8;
+    transition: background 0.3s;
+}
+
+tr:nth-child(even) td {
+    background: #e3f1ef;
+}
+
+tr:hover td {
+    background: #b5ead7;
+}
+
+</style>
+</head>
+<body>
+
+<h2>ROV เล่นตัวไรดีวะ</h2>
+
+<div class="wheel-container">
+  <div class="arrow"></div>
+  <canvas id="wheel1" width="200" height="200"></canvas><br>
+<label><input type="checkbox" id="remove1" checked> ลบรายการผู้เล่น</label><br>
+  <textarea id="pool1">Player 1
+Player 2
+Player 3
+Player 4
+Player 5
+  </textarea>
+</div>
+
+<div class="wheel-container">
+  <div class="arrow"></div>
+  <canvas id="wheel2" width="200" height="200"></canvas><br>
+  <label><input type="checkbox" id="remove2" checked> ลบรายการตำแหน่ง</label><br>
+  <textarea id="pool2">Mid Lane
+Support
+Solo Lane
+Duo Lane
+Jungler
+  </textarea>
+</div>
+
+<div class="wheel-container">
+  <div class="arrow"></div>
+  <canvas id="wheel3" width="200" height="200"></canvas><br>
+  <label><input type="checkbox" id="remove3" checked> ลบรายการตัวละคร</label><br>
+  <textarea id="pool3">
+Valhein
+Zanis
+Yorn
+Thane
+Krixi
+Ormarr
+Zephys
+Lu Bu
+Alice
+Mganga
+Gildur
+Butterfly
+Taara
+Toro
+Mina
+Veera
+Kahlii
+Azzen’Ka
+Chaugnar
+Omega
+Violet
+Diao Chan
+Nakroth
+Grakk
+Fennik
+Aleister
+Lumburr
+Payna
+Natalya
+Cresht
+Jinna
+Maloch
+Ilumia
+WuKong
+Kriknak
+Mortos
+Batman
+Slimz
+Preyta
+Skud
+Airi
+Ignis
+Zuka
+Raz
+Murad
+Zill
+Lauriel
+The Joker
+Arduin
+Astrid
+Tel’Annas
+Kil’Groth
+Ryoma
+Superman
+Wonder Woman
+Moren
+Xeniel
+Lindis
+TeeMee
+Tulen
+Omen
+Max
+Liliana
+Wisp
+The Flash
+Arum
+Rourke
+Marja
+Baldum
+Roxie
+Annette
+Amily
+Y’bneth
+Elsu
+Riktor
+Wiro
+Quillen
+Sephera
+Florentino
+Veres
+D’Arcy
+Hayate
+Capheny
+Errol
+Yena
+Enzo
+Zip
+Qi
+Celica
+Volkath
+Krizzix
+Eland’orr
+Ishar
+Dirak
+Keera
+Ata
+Paine
+Laville
+Rouie
+Zata
+Allain
+Thorne
+Sinestrea
+Dextra
+Lorion
+Bright
+Aoi
+Iggy
+Tachi
+Aya
+Yue
+Yan
+Teeri
+Bonnie
+Bijan
+Ming
+Erin
+Charlotte
+Dolia
+Biron
+Bolt Baron
+Billow
+Heino
+Goverra
+  </textarea>
+</div>
+
+<br>
+<button onclick="startSpin()">สุ่มทีละคน</button>
+<button onclick="spinAllPlayersAnimated()">สุ่มทั้งหมด</button>
+
+<h3>สุ่มได้</h3>
+  <table id="results">
+    <tr><th>ชื่อ</th><th>ตำแหน่ง</th><th>ตัวละคร</th></tr>
+  </table>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3>ผลการหมุน</h3>
+    <p id="popup-text"></p>
+    <button onclick="confirmResult()">OK</button>
+  </div>
+</div>
+<audio id="tickSound" src="tick.wav" volume="0.25"></audio>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var tick = document.getElementById("tickSound");
+    if (tick) tick.volume = 0.25;
+});
+</script>
+
+
+<script>
+class Wheel {
+  constructor(canvasId, textareaId, duration=3000) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas.getContext("2d");
+    this.textarea = document.getElementById(textareaId);
+    this.angle = 0;
+    this.duration = duration;
+    this.draw();
+  }
+  getItems() {
+    return this.textarea.value.split("\n").map(s => s.trim()).filter(s => s);
+  }
+draw() {
+  let items = this.getItems();
+  let ctx = this.ctx, size = this.canvas.width;
+  ctx.clearRect(0, 0, size, size);
+  if (items.length === 0) return;
+  let arc = 2 * Math.PI / items.length;
+let colors = [
+    "#ffd1dc", // pastel pink
+    "#b5ead7", // pastel mint
+    "#c7ceea", // pastel lavender
+    "#ffdac1", // pastel peach
+    "#e2f0cb", // pastel green
+    "#f1cbff", // pastel purple
+    "#c9fff7", // pastel aqua
+    "#fff5ba", // pastel yellow
+    "#b5d6ff", // pastel blue
+    "#f7c5cc", // pastel rose
+    "#f9e2ae", // pastel apricot
+    "#d4e2fc"  // pastel sky
+];
+  for (let i = 0; i < items.length; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.moveTo(size / 2, size / 2);
+    ctx.arc(size / 2, size / 2, size / 2, i * arc + this.angle, (i + 1) * arc + this.angle);
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(size / 2, size / 2);
+    ctx.rotate(i * arc + arc / 2 + this.angle);
+    ctx.fillStyle = "#000";
+    ctx.textAlign = "center";
+    ctx.fillText(items[i], size / 4, 5);
+    ctx.restore();
+  }
+}
+  spin(callback){
+  let items = this.getItems();
+  if(items.length === 0){ callback(null); return; }
+
+  let startAngle = this.angle;
+  let start = performance.now();
+  let duration = this.duration;
+  let totalRotations = 20 + Math.floor(Math.random()*3);
+  let arc = 2*Math.PI/items.length;
+  let pickedIndex = Math.floor(Math.random()*items.length);
+  let randomOffset = (Math.random() - 0.5) * (arc * 0.8);
+
+  let deltaAngle = 2*Math.PI*totalRotations - pickedIndex*arc - arc/2 + randomOffset;
+
+  const easeInOut = t => t<0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+  let lastPassedIndex = Math.floor(startAngle / arc);
+
+  const animate = (now)=>{
+    let t = (now - start)/duration;
+    if(t < 1){
+      this.angle = startAngle + deltaAngle * easeInOut(t);
+      this.draw();
+
+      let currentIndex = Math.floor(this.angle / arc);
+      if(currentIndex !== lastPassedIndex){
+        document.getElementById("tickSound").currentTime = 0;
+        document.getElementById("tickSound").play();
+        lastPassedIndex = currentIndex;
+      }
+
+      requestAnimationFrame(animate);
+    } else {
+      this.angle = startAngle + deltaAngle;
+      this.draw();
+      callback(items[pickedIndex]);
+    }
+  };
+
+  requestAnimationFrame(animate);
+}
+}
+
+let wheel1=new Wheel("wheel1","pool1",5000);
+let wheel2=new Wheel("wheel2","pool2",5000);
+let wheel3=new Wheel("wheel3","pool3",5000);
+
+function updateAll(){ wheel1.draw(); wheel2.draw(); wheel3.draw(); }
+["pool1","pool2","pool3"].forEach(id=>document.getElementById(id).addEventListener("input",updateAll));
+
+let currentResult=null;
+
+function startSpin(){
+  wheel1.spin(res1=>{
+    wheel2.spin(res2=>{
+      wheel3.spin(res3=>{
+        currentResult={res1,res2,res3};
+        document.getElementById("popup-text").innerText=
+          "ชื่อ: "+res1+"\nตำแหน่ง: "+res2+"\nตัวละคร: "+res3;
+        document.getElementById("popup").style.display="flex";
+      });
+    });
+  });
+}
+
+function confirmResult(){
+  if(!currentResult) return;
+  let table=document.getElementById("results");
+  let row=table.insertRow();
+  row.insertCell().innerText=currentResult.res1;
+  row.insertCell().innerText=currentResult.res2;
+  row.insertCell().innerText=currentResult.res3;
+
+  if(document.getElementById("remove1").checked) removeFromPool("pool1", currentResult.res1);
+  if(document.getElementById("remove2").checked) removeFromPool("pool2", currentResult.res2);
+  if(document.getElementById("remove3").checked) removeFromPool("pool3", currentResult.res3);
+
+  updateAll();
+  document.getElementById("popup").style.display="none";
+  currentResult=null;
+}
+
+function removeFromPool(textareaId,value){
+  let ta=document.getElementById(textareaId);
+  let lines=ta.value.split("\n").map(s=>s.trim()).filter(s=>s && s!==value);
+  ta.value = lines.join("\n");
+}
+
+function spinAllPlayersAnimated() {
+  let players = wheel1.getItems();
+  if(players.length === 0) return;
+
+  function spinNext(index) {
+    if(index >= players.length) return;
+
+    wheel1.spin(res1 => {
+      wheel2.spin(res2 => {
+        wheel3.spin(res3 => {
+          currentResult = {res1, res2, res3};
+          document.getElementById("popup-text").innerText =
+            "ชื่อ: " + res1 + "\nตำแหน่ง: " + res2 + "\nตัวละคร: " + res3;
+          document.getElementById("popup").style.display = "flex";
+
+          setTimeout(() => {
+            confirmResult();
+            spinNext(index + 1);
+          }, 1000);
+        });
+      });
+    });
+  }
+
+  spinNext(0);
+}
+
+</script>
+
+</body>
+</html>
