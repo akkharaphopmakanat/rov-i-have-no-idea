@@ -432,7 +432,7 @@ Goverra
             this.draw();
 
             // 20% chance to wobble
-            if (Math.random() < 0.2 && this.isWobble) {
+            if (Math.random() < 0.5 && this.isWobble) {
               this.wobble(items, arc, callback); // callback will get wobble result
             } else {
               callback(items[pickedIndex]); // normal spin result
